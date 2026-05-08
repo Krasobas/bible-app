@@ -5,49 +5,64 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 {% endblock %}
 
+{% block title %}{{ lecture.title }} — {{ course.title }} — {{ site_title }}{% endblock %}
+
 {% block content %}
 <div class="lecture-layout">
-  {% include "subnav.html" %}
-  <div class="page-wrapper">
+
+<!-- Sub-navigation for this course -->
+<div class="subnav">
+    <div class="subnav-inner">
+        {% for lec in course.lectures %}
+        <a href="/{{ course.slug }}/{{ lec.slug }}/"
+           class="subnav-link {% if lec.slug == lecture.slug %}active{% endif %}"
+        >{{ lec.title }}</a>
+        {% endfor %}
+        <span class="subnav-sep">|</span>
+        {% for ref in ref_pages %}
+        <a href="/{{ course.slug }}/ref/{{ ref.slug }}/" class="subnav-ref">{{ ref.title }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="page-wrapper">
+
+    <!-- Scripture column -->
     <div class="scripture-column scroll-hidden" id="scriptureCol">
-      {{ lecture.content | safe }}
-      {% if lecture.prev_slug or lecture.next_slug %}
-      <div class="lecture-nav">
-        {% if lecture.prev_slug %}
-        <a href="/luke/{{ lecture.prev_slug }}/" class="lecture-nav-prev">&larr; {{ lecture.prev_title }}</a>
+
+        <h1>{{ lecture.title }}</h1>
+        {% if lecture.subtitle %}<p class="subtitle">{{ lecture.subtitle }}</p>{% endif %}
+
+        {{ lecture.content | safe }}
+
+        <!-- Prev / Next navigation -->
+        <div class="lecture-nav">
+        {% if prev_lecture %}
+        <a href="/{{ course.slug }}/{{ prev_lecture.slug }}/" class="lecture-nav-prev">&larr; {{ prev_lecture.title }}</a>
         {% else %}
         <span></span>
         {% endif %}
-        {% if lecture.next_slug %}
-        <a href="/luke/{{ lecture.next_slug }}/" class="lecture-nav-next">{{ lecture.next_title }} &rarr;</a>
+        {% if next_lecture %}
+        <a href="/{{ course.slug }}/{{ next_lecture.slug }}/" class="lecture-nav-next">{{ next_lecture.title }} &rarr;</a>
         {% endif %}
-      </div>
-      {% endif %}
+        </div>
     </div>
+
+    <!-- Commentary panel (desktop only, populated by JS) -->
     <div class="commentary-panel scroll-hidden" id="commentaryPanel">
-      <div class="commentary-inner" id="commentaryInner">
-        <button class="close-commentary" onclick="closeCommentary()">&larr; Закрыть комментарий</button>
-      </div>
+        <div class="commentary-inner" id="commentaryInner">
+            <button class="close-commentary" onclick="closeCommentary()">&larr; Закрыть комментарий</button>
+        </div>
     </div>
-  </div>
+
+</div>
+
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-// Initialize passage toggle and mini-maps when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    initPassageToggle();
-
-    // Initialize all Leaflet mini-maps in the page
-    document.querySelectorAll('[id^="minimap"]').forEach(function(mapDiv) {
-        // Skip if already initialized (Leaflet adds leaflet-container class)
-        if (mapDiv.classList.contains('leaflet-container')) return;
-
-        var mapId = mapDiv.id;
-        // Map init scripts are inline in the content and run automatically.
-        // We just need to ensure the map objects are accessible.
-    });
-});
+// Activate passage toggle if passages exist
+initPassageToggle();
 </script>
 {% endblock %}
