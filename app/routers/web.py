@@ -16,6 +16,14 @@ templates = Jinja2Templates(directory=TEMPLATES_DIR)
 IMAGE_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data", "images")
 
 
+@router.get("/img/{filename}")
+def serve_image(filename: str):
+    path = os.path.join(IMAGE_DIR, filename)
+    if not os.path.exists(path):
+        raise HTTPException(status_code=404, detail="Image not found")
+    return FileResponse(path)
+
+
 @router.get("/", response_class=HTMLResponse)
 def index(request: Request, db: Session = Depends(get_db)):
     ctx = template_context(request, db)
@@ -80,11 +88,3 @@ def ref_page(course_slug: str, ref_slug: str, request: Request, db: Session = De
     ref_pages = db.query(RefPage).filter(RefPage.course_id == course.id).order_by(RefPage.sort_order).all()
     ctx.update(course=course, ref_page=ref, lectures=lectures, ref_pages=ref_pages)
     return templates.TemplateResponse("reference.html", ctx)
-
-
-@router.get("/img/{filename}")
-def serve_image(filename: str):
-    path = os.path.join(IMAGE_DIR, filename)
-    if not os.path.exists(path):
-        raise HTTPException(status_code=404, detail="Image not found")
-    return FileResponse(path)
