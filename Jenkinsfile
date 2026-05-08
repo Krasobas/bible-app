@@ -4,31 +4,27 @@ pipeline {
     stages {
         stage('Build Image') {
             steps {
-                dir('bible-app') {
-                    sh 'docker build -t bible-study-app:latest .'
-                }
+                sh 'docker build -t bible-study-app:latest .'
             }
         }
 
         stage('Deploy') {
             steps {
-                dir('bible-app') {
-                    // Write .env from Jenkins credentials
-                    withCredentials([
-                        string(credentialsId: 'bible-study-api-key', variable: 'API_KEY'),
-                        string(credentialsId: 'bible-study-domain', variable: 'DOMAIN'),
-                    ]) {
-                        sh '''
-                            cat > .env <<EOF
+                // Write .env from Jenkins credentials
+                withCredentials([
+                    string(credentialsId: 'bible-study-api-key', variable: 'API_KEY'),
+                    string(credentialsId: 'bible-study-domain', variable: 'DOMAIN'),
+                ]) {
+                    sh '''
+                        cat > .env <<EOF
 API_KEY=${API_KEY}
 DOMAIN=${DOMAIN}
 SITE_TITLE=Библейский кружок
 SITE_SUBTITLE=Комментарий для XXI века
 EOF
-                        '''
-                    }
-                    sh 'docker compose up -d --build --force-recreate'
+                    '''
                 }
+                sh 'docker compose up -d --build --force-recreate'
             }
         }
     }
