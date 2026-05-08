@@ -37,7 +37,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: var(--bg);
     color: var(--fg);
     line-height: 1.7;
@@ -75,7 +75,7 @@ a:hover { text-decoration: underline; }
 .topbar a:hover { color: #fff; text-decoration: none; }
 .topbar a.current { color: #fff; background: var(--accent); }
 .topbar .brand {
-    font-family: 'PT Serif', serif; font-weight: 700;
+    font-family: 'Cormorant Garamond', serif; font-weight: 700;
     color: var(--bg); margin-right: 0.8rem; font-size: 1rem;
 }
 
@@ -130,7 +130,7 @@ a:hover { text-decoration: underline; }
     text-align: center; margin-bottom: 3rem;
 }
 .landing-hero h1 {
-    font-family: 'PT Serif', serif; font-size: 2.4rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 2.4rem;
     color: var(--accent); margin-bottom: 0.3rem;
 }
 .landing-subtitle {
@@ -158,7 +158,7 @@ a:hover { text-decoration: underline; }
     margin-bottom: 0.5rem;
 }
 .course-card h2 {
-    font-family: 'PT Serif', serif; font-size: 1.3rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
     color: var(--accent); margin-bottom: 0.3rem;
 }
 .course-card-subtitle {
@@ -181,7 +181,7 @@ a:hover { text-decoration: underline; }
     margin-bottom: 2.5rem;
 }
 .course-header h1 {
-    font-family: 'PT Serif', serif; font-size: 2rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 2rem;
     color: var(--accent); margin-bottom: 0.3rem;
 }
 .course-subtitle {
@@ -193,7 +193,7 @@ a:hover { text-decoration: underline; }
 
 .course-section { margin-bottom: 2.5rem; }
 .course-section h2 {
-    font-family: 'PT Serif', serif; font-size: 1.2rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
     color: var(--accent); border-bottom: 2px solid var(--accent);
     padding-bottom: 0.3rem; margin-bottom: 1rem;
 }
@@ -213,11 +213,11 @@ a:hover { text-decoration: underline; }
     border-color: var(--accent-light); text-decoration: none;
 }
 .lecture-card-order {
-    font-family: 'PT Serif', serif; font-size: 1.6rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;
     color: var(--accent-light); min-width: 2rem; text-align: center;
 }
 .lecture-card h3 {
-    font-family: 'PT Serif', serif; font-size: 1.1rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
     color: var(--accent); margin-bottom: 0.1rem;
 }
 .lecture-card p {
@@ -249,17 +249,71 @@ a:hover { text-decoration: underline; }
     padding: 2.5rem 2rem 4rem;
 }
 .special-content h1 {
-    font-family: 'PT Serif', serif; font-size: 2.2rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 2.2rem;
     color: var(--accent); margin-bottom: 0.3rem;
 }
 .special-content .subtitle {
     font-size: 1.1rem; color: var(--accent-light); margin-bottom: 2rem;
 }
 
+/* Special content typography */
+.special-content h2 {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;
+    color: var(--accent); margin: 2.5rem 0 1rem;
+    padding-bottom: 0.4rem; border-bottom: 2px solid var(--border);
+}
+.special-content h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.25rem;
+    color: var(--accent); margin: 2rem 0 0.8rem;
+}
+.special-content h4 {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+    color: var(--fg); margin: 1.5rem 0 0.6rem;
+}
+.special-content p {
+    margin: 0.6rem 0; line-height: 1.85;
+}
+.special-content blockquote {
+    background: var(--quote-bg); border-left: 4px solid var(--accent);
+    padding: 1rem 1.4rem; margin: 1.5rem 0; border-radius: 0 6px 6px 0;
+    font-style: italic;
+}
+.special-content blockquote p { margin: 0.3rem 0; }
+.special-content hr {
+    border: none; border-top: 1px solid var(--border);
+    margin: 2rem 0;
+}
+.special-content ul, .special-content ol {
+    margin: 0.8rem 0; padding-left: 1.8rem;
+}
+.special-content li { margin: 0.3rem 0; line-height: 1.75; }
+.special-content li strong { color: var(--accent); }
+.special-content table {
+    width: 100%; border-collapse: collapse; margin: 1.2rem 0;
+    font-size: 0.92rem;
+}
+.special-content thead th {
+    background: var(--quote-bg); text-align: left;
+    padding: 0.6rem 0.8rem; border-bottom: 2px solid var(--border);
+    font-family: 'Montserrat', sans-serif; font-weight: 600;
+    font-size: 0.85rem; color: var(--accent);
+}
+.special-content tbody td {
+    padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+.special-content tbody tr:hover td { background: var(--quote-bg); }
+.special-content .sec-num {
+    font-family: 'Montserrat', sans-serif; font-weight: 600;
+    color: var(--accent-light); margin-right: 0.5rem;
+}
+.special-content em { color: var(--accent-light); }
+.special-content strong { color: var(--fg); }
+
 /* Landing page — special/overview section */
 .landing-section { margin-bottom: 2.5rem; }
 .landing-section-title {
-    font-family: 'PT Serif', serif; font-size: 1.2rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
     color: var(--accent); border-bottom: 2px solid var(--accent);
     padding-bottom: 0.3rem; margin-bottom: 1rem;
 }
@@ -279,7 +333,7 @@ a:hover { text-decoration: underline; }
     transform: translateY(-2px); text-decoration: none;
 }
 .special-card h3 {
-    font-family: 'PT Serif', serif; font-size: 1.3rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
     color: var(--accent); margin-bottom: 0.3rem;
 }
 .special-card p {
@@ -357,7 +411,7 @@ a:hover { text-decoration: underline; }
     padding: 2rem 2rem 4rem;
 }
 .ref-content h1 {
-    font-family: 'PT Serif', serif; font-size: 2rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 2rem;
     color: var(--accent); margin-bottom: 1rem;
 }
 
@@ -381,7 +435,7 @@ a:hover { text-decoration: underline; }
 }
 
 .section-header {
-    font-family: 'PT Serif', serif; font-size: 1.2rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
     color: var(--accent); border-bottom: 2px solid var(--accent);
     padding-bottom: 0.3rem; margin: 2rem 0 0.8rem;
     cursor: default;
@@ -403,11 +457,11 @@ a:hover { text-decoration: underline; }
     vertical-align: super; margin-right: 0.15rem; user-select: none;
 }
 .scripture-text {
-    font-family: 'PT Serif', serif; font-size: 1.05rem; line-height: 1.85;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; line-height: 1.85;
 }
 /* Verse numbers in scripture text */
 .vn {
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.7em;
     font-weight: 700;
     color: var(--accent-light);
@@ -420,7 +474,7 @@ a:hover { text-decoration: underline; }
 
 
 .scripture {
-    font-family: 'PT Serif', serif; font-size: 1.02rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.02rem;
     line-height: 1.85; background: var(--quote-bg);
     border-left: 3px solid var(--accent);
     padding: 0.6rem 1rem; margin: 0.6rem 0;
@@ -445,12 +499,12 @@ a:hover { text-decoration: underline; }
 }
 
 .commentary-content h2 {
-    font-family: 'PT Serif', serif; font-size: 1.4rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;
     color: var(--accent); margin-bottom: 0.8rem;
     padding-bottom: 0.3rem; border-bottom: 1px solid var(--border);
 }
 .commentary-content h3 {
-    font-family: 'PT Serif', serif; font-size: 1.1rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
     color: var(--accent); margin: 1.2rem 0 0.5rem;
 }
 
@@ -470,9 +524,9 @@ a:hover { text-decoration: underline; }
    CONTENT ELEMENTS (used in lectures and reference pages)
    ================================================================ */
 
-h1 { font-family: 'PT Serif', serif; font-size: 2rem; color: var(--accent); margin-bottom: 0.3rem; }
-h2 { font-family: 'PT Serif', serif; color: var(--accent); }
-h3 { font-family: 'PT Serif', serif; color: var(--accent); }
+h1 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--accent); margin-bottom: 0.3rem; }
+h2 { font-family: 'Cormorant Garamond', serif; color: var(--accent); }
+h3 { font-family: 'Cormorant Garamond', serif; color: var(--accent); }
 
 .subtitle {
     font-size: 1.1rem; color: var(--accent-light); margin-bottom: 2rem;
@@ -520,7 +574,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     font-size: 0.88rem;
 }
 .timeline-box .tl-title {
-    font-family: 'PT Serif', serif;
+    font-family: 'Cormorant Garamond', serif;
     font-weight: 700;
     font-size: 1rem;
     color: var(--accent);
@@ -600,7 +654,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 .quote-table th {
     background: var(--accent); color: #fff;
     padding: 0.5rem 0.8rem; text-align: left;
-    font-family: 'PT Sans', sans-serif; font-size: 0.85rem;
+    font-family: 'Montserrat', sans-serif; font-size: 0.85rem;
 }
 .quote-table td {
     padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--border);
@@ -619,7 +673,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 .ref-content th {
     background: var(--accent); color: #fff;
     padding: 0.5rem 0.8rem; text-align: left;
-    font-family: 'PT Sans', sans-serif; font-size: 0.85rem;
+    font-family: 'Montserrat', sans-serif; font-size: 0.85rem;
 }
 .commentary-content td,
 .ref-content td {
@@ -638,7 +692,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     border-radius: 6px; padding: 1rem; overflow-x: auto;
 }
 .synoptic .syn-title {
-    font-family: 'PT Serif', serif; font-weight: 700;
+    font-family: 'Cormorant Garamond', serif; font-weight: 700;
     font-size: 1rem; color: var(--accent);
     margin-bottom: 0.8rem; padding-bottom: 0.3rem;
     border-bottom: 1px solid var(--border);
@@ -718,7 +772,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     padding: 1rem; background: #fff; border: 1px solid var(--border); border-radius: 6px;
 }
 .ref-content .loc-card h3 {
-    font-family: 'PT Serif', serif; font-size: 1.1rem; color: var(--accent);
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--accent);
     margin-bottom: 0.3rem;
 }
 .ref-content .loc-ref {
@@ -744,7 +798,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     margin: 2rem 0;
 }
 .ref-content .tree-section h3 {
-    font-family: 'PT Serif', serif; font-size: 1.15rem; color: var(--accent);
+    font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--accent);
     border-bottom: 2px solid var(--accent); padding-bottom: 0.3rem; margin-bottom: 1rem;
 }
 
@@ -764,7 +818,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 
 /* Names: name index styles */
 .ref-content .name-section h3 {
-    font-family: 'PT Serif', serif; font-size: 1.15rem; color: var(--accent);
+    font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--accent);
     margin: 1.5rem 0 0.5rem;
 }
 
@@ -785,7 +839,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     margin: 1rem 0;
 }
 .mini-map-title {
-    font-family: 'PT Serif', serif;
+    font-family: 'Cormorant Garamond', serif;
     font-size: 0.9rem;
     color: var(--accent);
     margin-bottom: 0.4rem;
@@ -860,6 +914,11 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 }
 
 @media (max-width: 640px) {
+    .special-page { padding: 1.5rem 1rem 3rem; }
+    .special-content h1 { font-size: 1.6rem; }
+    .special-content h2 { font-size: 1.3rem; }
+    .special-content table { font-size: 0.85rem; }
+    .special-content thead th, .special-content tbody td { padding: 0.4rem 0.5rem; }
     .ref-content #map { height: 300px; }
     .ref-content .loc-grid { grid-template-columns: 1fr; }
     .ref-content .gloss-entry {
@@ -876,7 +935,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
    ================================================================ */
 
 .ref-content .intro {
-    font-family: 'PT Serif', serif; font-size: 1rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem;
     margin-bottom: 2rem; color: #444;
 }
 
@@ -894,7 +953,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 
 .ref-content .period { margin-bottom: 3rem; }
 .ref-content .period-title {
-    font-family: 'PT Serif', serif; font-size: 1.4rem; color: var(--accent);
+    font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--accent);
     border-bottom: 2px solid var(--accent); padding-bottom: 0.3rem; margin-bottom: 0.3rem;
 }
 .ref-content .period-sub {
@@ -936,7 +995,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 }
 
 .ref-content .tl-date {
-    font-family: 'PT Serif', serif; font-weight: 700; font-size: 0.9rem; color: var(--accent);
+    font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 0.9rem; color: var(--accent);
 }
 .ref-content .tl-title { font-weight: 700; font-size: 0.95rem; }
 .ref-content .tl-desc { font-size: 0.88rem; color: #555; margin-top: 0.2rem; }
@@ -1019,7 +1078,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 .ref-content .gloss-def { font-size: 0.88rem; color: #444; }
 .ref-content .gloss-ref { font-size: 0.78rem; color: var(--accent-light); text-align: right; }
 .ref-content .gloss-alpha {
-    font-family: 'PT Serif', serif; font-size: 1.8rem; color: var(--accent);
+    font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--accent);
     border-bottom: 2px solid var(--accent); margin-top: 2rem; margin-bottom: 0.5rem;
 }
 
@@ -1032,13 +1091,13 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     padding: 0.7rem 0; border-bottom: 1px dotted var(--border);
 }
 .ref-content .name-title {
-    font-family: 'PT Serif', serif; font-weight: 700; font-size: 1.05rem; color: var(--accent);
+    font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.05rem; color: var(--accent);
 }
 .ref-content .name-alt { font-size: 0.85rem; color: var(--accent-light); margin-left: 0.5rem; }
 .ref-content .name-desc { font-size: 0.9rem; margin-top: 0.3rem; }
 .ref-content .name-ref { font-size: 0.8rem; color: var(--accent-light); margin-top: 0.3rem; }
 .ref-content .alpha-letter {
-    font-family: 'PT Serif', serif; font-size: 1.8rem; color: var(--accent);
+    font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--accent);
     border-bottom: 2px solid var(--accent); margin-top: 2rem; margin-bottom: 0.5rem;
 }
 
@@ -1052,7 +1111,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 }
 .ref-search input {
     flex: 1; padding: 0.5rem 0.8rem; border: 1px solid var(--border);
-    border-radius: 4px; font-size: 0.9rem; font-family: 'PT Sans', sans-serif;
+    border-radius: 4px; font-size: 0.9rem; font-family: 'Montserrat', sans-serif;
     background: #fff; color: var(--fg);
     transition: border-color 0.2s;
 }
@@ -1069,7 +1128,7 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 .ref-filter-btn {
     padding: 0.3rem 0.8rem; border: 1px solid var(--border); border-radius: 4px;
     background: var(--bg); color: var(--fg); cursor: pointer; font-size: 0.85rem;
-    transition: all 0.2s; font-family: 'PT Sans', sans-serif;
+    transition: all 0.2s; font-family: 'Montserrat', sans-serif;
 }
 .ref-filter-btn:hover { background: var(--quote-bg); }
 .ref-filter-btn.active {
