@@ -14,13 +14,13 @@ pipeline {
                     string(credentialsId: 'bible-study-api-key', variable: 'API_KEY'),
                     string(credentialsId: 'bible-study-domain', variable: 'DOMAIN'),
                 ]) {
-                    writeFile file: '.env', text: """\
-API_KEY=${API_KEY}
-DOMAIN=${DOMAIN}
-SITE_TITLE=Библейский кружок
-SITE_SUBTITLE=Комментарий для XXI века
-"""
-                    sh 'docker compose up -d --build --force-recreate'
+                    sh '''
+                        echo "API_KEY=$API_KEY" > .env
+                        echo "DOMAIN=$DOMAIN" >> .env
+                        echo "SITE_TITLE=Библейский кружок" >> .env
+                        echo "SITE_SUBTITLE=Комментарий для XXI века" >> .env
+                        docker compose up -d --build --force-recreate
+                    '''
                 }
             }
         }
