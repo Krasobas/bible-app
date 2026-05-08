@@ -78,6 +78,16 @@ function togglePassage(id) {
             content.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 150);
     }
+
+    // Invalidate any Leaflet maps inside the newly visible commentary
+    setTimeout(() => {
+        content.querySelectorAll('[id^="minimap"]').forEach(mapDiv => {
+            const mapObj = window[mapDiv.id + '_map'];
+            if (mapObj && typeof mapObj.invalidateSize === 'function') {
+                mapObj.invalidateSize();
+            }
+        });
+    }, 300);
 }
 
 function closeCommentary() {

@@ -71,5 +71,32 @@
 <script>
 // Activate v3 passage toggle if passages exist
 initPassageToggle();
+
+// Mini-map fullscreen toggle
+function toggleMiniMapFullscreen(btn) {
+  var mc = btn.parentElement;
+  if (mc.classList.contains('mini-map-fullscreen')) {
+    mc.classList.remove('mini-map-fullscreen');
+    mc.style.cssText = 'position:relative;';
+    btn.textContent = '⛶';
+    btn.style.cssText = 'position:absolute;top:8px;right:8px;z-index:1000;background:rgba(255,255,255,0.9);border:1px solid var(--border);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:12px;';
+  } else {
+    mc.classList.add('mini-map-fullscreen');
+    mc.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;background:#fff;padding:10px;';
+    btn.textContent = '✕';
+    btn.style.cssText = 'position:absolute;top:12px;right:12px;z-index:1001;background:rgba(255,255,255,0.95);border:1px solid var(--border);border-radius:4px;padding:6px 10px;cursor:pointer;font-size:16px;font-weight:bold;';
+  }
+  // Invalidate map size after layout change
+  var mapDiv = mc.querySelector('[id^="minimap"]');
+  if (mapDiv && window[mapDiv.id + '_map']) {
+    setTimeout(function() { window[mapDiv.id + '_map'].invalidateSize(); }, 200);
+  }
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    var fs = document.querySelector('.mini-map-fullscreen');
+    if (fs) { var btn = fs.querySelector('.map-fullscreen-btn'); if (btn) toggleMiniMapFullscreen(btn); }
+  }
+});
 </script>
 {% endblock %}
