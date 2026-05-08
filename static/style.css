@@ -3,18 +3,20 @@
    ================================================================ */
 
 :root {
-    --bg: #faf6f0;
-    --fg: #2c2417;
-    --accent: #7a5c3a;
-    --accent-light: #a68b6b;
-    --border: #d4c5b0;
-    --quote-bg: #f3ece2;
+    --bg: #f6f3ee;
+    --fg: #1c1a16;
+    --accent: #7a5c10;
+    --accent-light: #5a534a;
+    --border: rgba(122,92,16,0.15);
+    --quote-bg: rgba(122,92,16,0.05);
     --scholar-bg: #eef4f0;
     --scholar-border: #7a9e8e;
-    --link: #5a3e28;
-    --passage-hover: rgba(122,92,58,0.06);
-    --passage-active: rgba(122,92,58,0.1);
+    --link: #7a5c10;
+    --passage-hover: rgba(122,92,16,0.05);
+    --passage-active: rgba(122,92,16,0.09);
     --topbar-h: 42px;
+    --dim: #8a8076;
+    --surface: #edeae2;
     /* Category colors for chronology/genealogies */
     --cat-roman: #4a6fa5;
     --cat-jewish: #2c5f7c;
@@ -26,10 +28,10 @@
     --cat-aram: #6b3a7a;
     --cat-lat: #8b3a3a;
     /* Table colors */
-    --table-header: #7a5c3a;
-    --table-stripe: #f3ece2;
+    --table-header: #7a5c10;
+    --table-stripe: rgba(122,92,16,0.04);
     /* Timeline dot colors */
-    --dot-hist: #7a5c3a;
+    --dot-hist: #7a5c10;
     --dot-lit: #4a6fa5;
     --dot-ritual: #c17817;
 }
@@ -40,7 +42,9 @@ body {
     font-family: 'Montserrat', sans-serif;
     background: var(--bg);
     color: var(--fg);
-    line-height: 1.7;
+    font-size: 16px;
+    line-height: 1.85;
+    font-weight: 300;
 }
 
 a { color: var(--link); text-decoration: none; }
@@ -59,7 +63,7 @@ a:hover { text-decoration: underline; }
     position: sticky; top: 0; z-index: 100;
     background: var(--fg); color: var(--bg);
     padding: 0 1.5rem; font-size: 0.85rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 1px 0 var(--border);
     display: flex; align-items: center; gap: 0.6rem;
     height: var(--topbar-h); flex-shrink: 0;
     overflow-x: auto;
@@ -68,14 +72,15 @@ a:hover { text-decoration: underline; }
 .topbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 .topbar a {
-    color: #ccc; text-decoration: none;
+    color: var(--dim); text-decoration: none;
     padding: 0.2rem 0.4rem; border-radius: 3px;
     white-space: nowrap; flex-shrink: 0;
+    transition: color 0.15s;
 }
-.topbar a:hover { color: #fff; text-decoration: none; }
-.topbar a.current { color: #fff; background: var(--accent); }
+.topbar a:hover { color: var(--bg); text-decoration: none; }
+.topbar a.current { color: var(--bg); background: var(--accent); }
 .topbar .brand {
-    font-family: 'Cormorant Garamond', serif; font-weight: 700;
+    font-family: 'Cormorant Garamond', serif; font-weight: 600;
     color: var(--bg); margin-right: 0.8rem; font-size: 1rem;
 }
 
@@ -85,7 +90,7 @@ a:hover { text-decoration: underline; }
    ================================================================ */
 
 .subnav {
-    background: var(--quote-bg);
+    background: var(--surface);
     border-bottom: 1px solid var(--border);
     padding: 0.4rem 1.5rem;
     font-size: 0.82rem;
@@ -102,18 +107,18 @@ a:hover { text-decoration: underline; }
 .subnav-link {
     color: var(--accent-light); text-decoration: none;
     padding: 0.15rem 0.35rem; border-radius: 3px;
-    white-space: nowrap;
+    white-space: nowrap; font-weight: 300;
 }
-.subnav-link:hover { color: var(--accent); text-decoration: none; background: rgba(122,92,58,0.08); }
-.subnav-link.active { color: var(--fg); font-weight: 700; background: rgba(122,92,58,0.12); }
+.subnav-link:hover { color: var(--accent); text-decoration: none; background: rgba(122,92,16,0.08); }
+.subnav-link.active { color: var(--fg); font-weight: 500; background: rgba(122,92,16,0.1); }
 
 .subnav-ref {
-    color: var(--scholar-border); text-decoration: none;
+    color: var(--dim); text-decoration: none;
     padding: 0.15rem 0.35rem; border-radius: 3px;
-    white-space: nowrap;
+    white-space: nowrap; font-weight: 300;
 }
-.subnav-ref:hover { color: var(--scholar-border); text-decoration: none; background: rgba(122,158,142,0.1); }
-.subnav-ref.active { color: var(--scholar-border); font-weight: 700; background: rgba(122,158,142,0.15); }
+.subnav-ref:hover { color: var(--scholar-border); text-decoration: none; background: rgba(122,158,142,0.08); }
+.subnav-ref.active { color: var(--scholar-border); font-weight: 500; background: rgba(122,158,142,0.12); }
 
 .subnav-sep { color: var(--border); margin: 0 0.3rem; }
 
@@ -131,10 +136,10 @@ a:hover { text-decoration: underline; }
 }
 .landing-hero h1 {
     font-family: 'Cormorant Garamond', serif; font-size: 2.4rem;
-    color: var(--accent); margin-bottom: 0.3rem;
+    font-weight: 300; color: var(--accent); margin-bottom: 0.3rem;
 }
 .landing-subtitle {
-    font-size: 1.15rem; color: var(--accent-light);
+    font-size: 1.1rem; color: var(--dim); font-weight: 300;
 }
 
 .course-grid {
@@ -146,23 +151,24 @@ a:hover { text-decoration: underline; }
     display: block; background: #fff;
     border: 1px solid var(--border); border-radius: 8px;
     padding: 1.5rem; text-decoration: none; color: var(--fg);
-    transition: box-shadow 0.2s, border-color 0.2s;
+    transition: box-shadow 0.2s, transform 0.15s;
 }
 .course-card:hover {
-    box-shadow: 0 4px 16px rgba(122,92,58,0.12);
-    border-color: var(--accent-light); text-decoration: none;
+    box-shadow: 0 4px 16px rgba(122,92,16,0.1);
+    transform: translateY(-1px); text-decoration: none;
 }
 .course-card-type {
-    font-size: 0.75rem; text-transform: uppercase;
-    letter-spacing: 0.05em; color: var(--accent-light);
-    margin-bottom: 0.5rem;
+    font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--dim);
+    margin-bottom: 0.5rem; font-weight: 500;
 }
 .course-card h2 {
     font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
-    color: var(--accent); margin-bottom: 0.3rem;
+    font-weight: 400; color: var(--accent); margin-bottom: 0.3rem;
 }
 .course-card-subtitle {
     font-size: 0.92rem; color: var(--accent-light); margin-bottom: 0.6rem;
+    font-weight: 300;
 }
 .course-card-meta {
     font-size: 0.8rem; color: var(--border);
@@ -209,7 +215,7 @@ a:hover { text-decoration: underline; }
     transition: box-shadow 0.2s, border-color 0.2s;
 }
 .lecture-card:hover {
-    box-shadow: 0 2px 10px rgba(122,92,58,0.1);
+    box-shadow: 0 2px 10px rgba(122,92,16,0.08);
     border-color: var(--accent-light); text-decoration: none;
 }
 .lecture-card-order {
@@ -250,65 +256,73 @@ a:hover { text-decoration: underline; }
 }
 .special-content h1 {
     font-family: 'Cormorant Garamond', serif; font-size: 2.2rem;
-    color: var(--accent); margin-bottom: 0.3rem;
+    font-weight: 300; color: var(--accent); margin-bottom: 0.3rem;
 }
 .special-content .subtitle {
-    font-size: 1.1rem; color: var(--accent-light); margin-bottom: 2rem;
+    font-size: 1rem; color: var(--dim); margin-bottom: 2rem; font-weight: 300;
 }
 
-/* Special content typography */
+/* Special content typography — Paskha style */
 .special-content h2 {
     font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;
-    color: var(--accent); margin: 2.5rem 0 1rem;
-    padding-bottom: 0.4rem; border-bottom: 2px solid var(--border);
+    font-weight: 300; color: var(--fg); margin: 2.5rem 0 1rem;
+    padding-top: 1.2rem; border-top: 1px solid var(--border);
 }
 .special-content h3 {
     font-family: 'Cormorant Garamond', serif; font-size: 1.25rem;
-    color: var(--accent); margin: 2rem 0 0.8rem;
+    font-weight: 400; color: var(--accent); margin: 2rem 0 0.8rem;
 }
 .special-content h4 {
-    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
-    color: var(--fg); margin: 1.5rem 0 0.6rem;
+    font-size: 0.8rem; letter-spacing: 0.18em; font-weight: 500;
+    text-transform: uppercase; color: var(--dim); margin: 1.5rem 0 0.6rem;
+    font-family: 'Montserrat', sans-serif;
 }
 .special-content p {
-    margin: 0.6rem 0; line-height: 1.85;
+    margin: 0 0 14px 0; line-height: 1.85; color: var(--accent-light);
+    font-weight: 300;
 }
 .special-content blockquote {
-    background: var(--quote-bg); border-left: 4px solid var(--accent);
-    padding: 1rem 1.4rem; margin: 1.5rem 0; border-radius: 0 6px 6px 0;
-    font-style: italic;
+    background: var(--quote-bg); border-left: 3px solid var(--accent);
+    padding: 16px 24px; margin: 24px 0; border-radius: 0 6px 6px 0;
 }
-.special-content blockquote p { margin: 0.3rem 0; }
+.special-content blockquote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px; font-style: italic;
+    color: var(--fg); font-weight: 300; line-height: 1.65; margin: 0;
+}
+.special-content blockquote p + p { margin-top: 10px; }
 .special-content hr {
     border: none; border-top: 1px solid var(--border);
-    margin: 2rem 0;
+    margin: 2.5rem 0;
 }
 .special-content ul, .special-content ol {
     margin: 0.8rem 0; padding-left: 1.8rem;
 }
-.special-content li { margin: 0.3rem 0; line-height: 1.75; }
-.special-content li strong { color: var(--accent); }
+.special-content li { margin: 0.3rem 0; line-height: 1.75; color: var(--accent-light); font-weight: 300; }
+.special-content li strong { color: var(--accent); font-weight: 500; }
 .special-content table {
     width: 100%; border-collapse: collapse; margin: 1.2rem 0;
-    font-size: 0.92rem;
+    font-size: 14px;
 }
 .special-content thead th {
-    background: var(--quote-bg); text-align: left;
-    padding: 0.6rem 0.8rem; border-bottom: 2px solid var(--border);
-    font-family: 'Montserrat', sans-serif; font-weight: 600;
-    font-size: 0.85rem; color: var(--accent);
+    text-align: left;
+    padding: 10px 14px; border-bottom: 2px solid var(--border);
+    font-family: 'Montserrat', sans-serif; font-weight: 500;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--dim);
 }
 .special-content tbody td {
-    padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--border);
-    vertical-align: top;
+    padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06);
+    vertical-align: top; line-height: 1.75; color: var(--accent-light);
+    font-weight: 300;
 }
 .special-content tbody tr:hover td { background: var(--quote-bg); }
 .special-content .sec-num {
-    font-family: 'Montserrat', sans-serif; font-weight: 600;
-    color: var(--accent-light); margin-right: 0.5rem;
+    font-family: 'Montserrat', sans-serif; font-weight: 500;
+    color: var(--dim); margin-right: 0.5rem;
 }
-.special-content em { color: var(--accent-light); }
-.special-content strong { color: var(--fg); }
+.special-content em { color: var(--dim); }
+.special-content strong { color: var(--fg); font-weight: 500; }
 
 /* Landing page — special/overview section */
 .landing-section { margin-bottom: 2.5rem; }
@@ -324,20 +338,20 @@ a:hover { text-decoration: underline; }
 }
 .special-card {
     display: block; background: #fff;
-    border: 2px solid var(--accent); border-radius: 10px;
+    border: 1px solid var(--border); border-radius: 10px;
     padding: 1.8rem; text-decoration: none; color: var(--fg);
     transition: box-shadow 0.2s, transform 0.15s;
 }
 .special-card:hover {
-    box-shadow: 0 6px 24px rgba(122,92,58,0.18);
+    box-shadow: 0 6px 24px rgba(122,92,16,0.1);
     transform: translateY(-2px); text-decoration: none;
 }
 .special-card h3 {
     font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
-    color: var(--accent); margin-bottom: 0.3rem;
+    font-weight: 400; color: var(--accent); margin-bottom: 0.3rem;
 }
 .special-card p {
-    font-size: 0.92rem; color: var(--accent-light);
+    font-size: 0.92rem; color: var(--dim); font-weight: 300;
 }
 
 /* ================================================================
@@ -436,14 +450,14 @@ a:hover { text-decoration: underline; }
 
 .section-header {
     font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
-    color: var(--accent); border-bottom: 2px solid var(--accent);
-    padding-bottom: 0.3rem; margin: 2rem 0 0.8rem;
+    font-weight: 300; color: var(--fg); border-top: 1px solid var(--border);
+    padding-top: 1.2rem; margin: 2rem 0 0.8rem;
     cursor: default;
 }
 
 .mobile-hint {
     display: none;
-    font-size: 0.72rem; color: var(--accent-light);
+    font-size: 0.72rem; color: var(--dim);
     margin-left: 0.5rem; vertical-align: middle;
 }
 
@@ -453,7 +467,7 @@ a:hover { text-decoration: underline; }
    ================================================================ */
 
 .verse-num {
-    font-size: 0.72rem; color: var(--accent-light);
+    font-size: 0.72rem; color: var(--dim);
     vertical-align: super; margin-right: 0.15rem; user-select: none;
 }
 .scripture-text {
@@ -463,8 +477,8 @@ a:hover { text-decoration: underline; }
 .vn {
     font-family: 'Montserrat', sans-serif;
     font-size: 0.7em;
-    font-weight: 700;
-    color: var(--accent-light);
+    font-weight: 500;
+    color: var(--dim);
     vertical-align: super;
     margin-right: 0.15em;
     line-height: 0;
@@ -500,23 +514,23 @@ a:hover { text-decoration: underline; }
 
 .commentary-content h2 {
     font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;
-    color: var(--accent); margin-bottom: 0.8rem;
-    padding-bottom: 0.3rem; border-bottom: 1px solid var(--border);
+    font-weight: 300; color: var(--fg); margin-bottom: 0.8rem;
+    padding-top: 1rem; border-top: 1px solid var(--border);
 }
 .commentary-content h3 {
     font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
-    color: var(--accent); margin: 1.2rem 0 0.5rem;
+    font-weight: 400; color: var(--accent); margin: 1.2rem 0 0.5rem;
 }
 
 .close-commentary {
     display: inline-flex; align-items: center; gap: 0.3rem;
-    font-size: 0.82rem; color: var(--accent-light); cursor: pointer;
+    font-size: 0.82rem; color: var(--dim); cursor: pointer;
     margin-bottom: 1.5rem; padding: 0.3rem 0.6rem; border-radius: 4px;
     border: 1px solid var(--border); background: transparent;
-    transition: all 0.2s;
+    transition: all 0.2s; font-weight: 300;
 }
 .close-commentary:hover {
-    background: var(--quote-bg); color: var(--accent);
+    background: var(--surface); color: var(--accent);
 }
 
 
@@ -524,9 +538,9 @@ a:hover { text-decoration: underline; }
    CONTENT ELEMENTS (used in lectures and reference pages)
    ================================================================ */
 
-h1 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--accent); margin-bottom: 0.3rem; }
-h2 { font-family: 'Cormorant Garamond', serif; color: var(--accent); }
-h3 { font-family: 'Cormorant Garamond', serif; color: var(--accent); }
+h1 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--accent); margin-bottom: 0.3rem; }
+h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; color: var(--fg); }
+h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--accent); }
 
 .subtitle {
     font-size: 1.1rem; color: var(--accent-light); margin-bottom: 2rem;
@@ -731,7 +745,8 @@ h3 { font-family: 'Cormorant Garamond', serif; color: var(--accent); }
 .footer {
     margin-top: 2rem; padding-top: 1.5rem;
     border-top: 1px solid var(--border);
-    font-size: 0.85rem; color: var(--accent-light); text-align: center;
+    font-size: 0.85rem; color: var(--dim); text-align: center;
+    font-weight: 300;
 }
 
 
