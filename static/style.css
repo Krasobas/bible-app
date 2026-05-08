@@ -635,6 +635,53 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     margin: 1.5rem 0 0.5rem;
 }
 
+
+/* Leaflet mini-map in lecture passages */
+.leaflet-mini-map {
+    height: 280px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    margin: 0.8rem 0;
+    z-index: 1;
+}
+.mini-map-title {
+    font-family: 'PT Serif', serif;
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+}
+
+/* Fullscreen map toggle */
+.map-fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+}
+.map-fullscreen-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.map-fullscreen-btn:hover {
+    background: var(--quote-bg);
+}
+.map-container {
+    position: relative;
+}
 @media (max-width: 640px) {
     .ref-content #map { height: 300px; }
     .ref-content .loc-grid { grid-template-columns: 1fr; }
@@ -907,6 +954,23 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     .synoptic { grid-template-columns: 1fr; }
 
     .subnav-inner { flex-wrap: wrap; }
+
+    .lecture-layout { height: auto; }
+    .lecture-nav {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: stretch;
+    }
+    .lecture-nav a {
+        display: block;
+        text-align: center;
+        padding: 0.6rem 1rem;
+        background: var(--quote-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+    }
+    .lecture-nav-prev { order: 2; }
+    .lecture-nav-next { order: 1; }
 }
 
 @keyframes slideDown {

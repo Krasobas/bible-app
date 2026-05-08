@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block head %}
+<!-- Leaflet CSS/JS for mini-maps in lecture content -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+{% endblock %}
+
 {% block title %}{{ lecture.title }} — {{ course.title }} — {{ site_title }}{% endblock %}
 
 {% block content %}
