@@ -1,6 +1,11 @@
 pipeline {
     agent { label 'agent1' }
 
+    environment {
+        API_KEY = credentials('bible-study-api-key')
+        DOMAIN  = credentials('bible-study-domain')
+    }
+
     stages {
         stage('Build Image') {
             steps {
@@ -10,18 +15,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                withCredentials([
-                    string(credentialsId: 'bible-study-api-key', variable: 'API_KEY'),
-                    string(credentialsId: 'bible-study-domain', variable: 'DOMAIN'),
-                ]) {
-                    sh '''
-                        echo "API_KEY=$API_KEY" > .env
-                        echo "DOMAIN=$DOMAIN" >> .env
-                        echo "SITE_TITLE=Библейский кружок" >> .env
-                        echo "SITE_SUBTITLE=Комментарий для XXI века" >> .env
-                        docker compose up -d --build --force-recreate
-                    '''
-                }
+                sh 'docker compose up -d --build --force-recreate'
             }
         }
     }
