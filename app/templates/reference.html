@@ -2,6 +2,13 @@
 
 {% block title %}{{ ref_page.title }} — {{ course.title }} — {{ site_title }}{% endblock %}
 
+{% block head %}
+<!-- Leaflet CSS for geography page -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Leaflet JS must load before map initialization script in content -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="ref-page">
 
