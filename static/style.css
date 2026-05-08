@@ -485,11 +485,20 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 }
 
 
+/* Synoptic comparison: title + table layout (not 3-col grid) */
 .synoptic {
-    display: grid; grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.8rem; margin: 1rem 0; font-size: 0.88rem;
+    margin: 1rem 0; font-size: 0.88rem;
+    background: var(--quote-bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: 1rem; overflow-x: auto;
 }
-.synoptic > div {
+.synoptic .syn-title {
+    font-family: 'PT Serif', serif; font-weight: 700;
+    font-size: 1rem; color: var(--accent);
+    margin-bottom: 0.8rem; padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+}
+.synoptic table { margin: 0; }
+.synoptic > div:not(.syn-title) {
     background: var(--quote-bg); border-radius: 4px;
     padding: 0.6rem 0.8rem;
 }
@@ -505,7 +514,8 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     text-align: center;
 }
 .illustration img {
-    max-width: 100%; height: auto; border-radius: 4px;
+    max-width: 320px; max-height: 260px; height: auto;
+    border-radius: 4px; object-fit: contain;
 }
 .illustration .ill-caption {
     font-size: 0.82rem; color: var(--accent-light);
@@ -514,7 +524,8 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 
 .mini-map {
     border: 1px solid var(--border); border-radius: 6px;
-    overflow: visible; margin: 1rem 0; min-height: 250px;
+    overflow: visible; margin: 1rem auto; min-height: 250px;
+    max-width: 500px; text-align: center;
 }
 
 .footer {
@@ -735,7 +746,11 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 }
 .ref-content .genealogy-col {
     background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 1rem;
+    overflow-y: auto; scrollbar-width: thin;
 }
+.ref-content .genealogy-col::-webkit-scrollbar { width: 4px; }
+.ref-content .genealogy-col::-webkit-scrollbar-track { background: transparent; }
+.ref-content .genealogy-col::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 .ref-content .genealogy-col h3 { margin-top: 0; }
 .ref-content .genealogy-col .gen-list { list-style: none; padding: 0; }
 .ref-content .genealogy-col .gen-list li {
