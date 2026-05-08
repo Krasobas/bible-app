@@ -14,9 +14,12 @@ pipeline {
                     string(credentialsId: 'bible-study-api-key', variable: 'API_KEY'),
                     string(credentialsId: 'bible-study-domain', variable: 'DOMAIN'),
                 ]) {
-                    sh '''
-                        printf 'API_KEY=%s\nDOMAIN=%s\nSITE_TITLE=Библейский кружок\nSITE_SUBTITLE=Комментарий для XXI века\n' "$API_KEY" "$DOMAIN" > .env
-                    '''
+                    writeFile file: '.env', text: """\
+API_KEY=${API_KEY}
+DOMAIN=${DOMAIN}
+SITE_TITLE=Библейский кружок
+SITE_SUBTITLE=Комментарий для XXI века
+"""
                     sh 'docker compose up -d --build --force-recreate'
                 }
             }
@@ -24,11 +27,22 @@ pipeline {
     }
 
     post {
-        failure {
-            echo 'Deployment failed. Check logs: docker compose logs bible-study-app'
-        }
-        success {
-            echo 'Deployed successfully.'
+        always {
+            script {
+                def status = currentBuild.currentResult
+                def emoji = status == 'SUCCESS' ? '✅' : status == 'FAILURE' ? '❌' : '⚠️'
+                def duration = currentBuild.durationString.replace(' and counting', '')
+                def buildInfo = """
+${emoji} *Bible App* — #${currentBuild.number}
+━━━━━━━━━━━━━━━━━━━━
+📌 Status: *${status}*
+🕐 Started: ${new Date(currentBuild.startTimeInMillis).format('dd.MM.yyyy HH:mm:ss')}
+⏱ Duration: ${duration}
+━━━━━━━━━━━━━━━━━━━━
+🔗 [Open in Jenkins](${env.BUILD_URL})
+                """.trim()
+                telegramSend(message: buildInfo)
+            }
         }
     }
 }
