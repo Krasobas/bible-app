@@ -85,6 +85,9 @@ function togglePassage(id) {
             const mapObj = window[mapDiv.id + '_map'];
             if (mapObj && typeof mapObj.invalidateSize === 'function') {
                 mapObj.invalidateSize();
+                if (mapObj.getBounds && mapObj.getBounds().isValid()) {
+                    mapObj.fitBounds(mapObj.getBounds().pad(0.15));
+                }
             }
         });
     }, 300);
