@@ -7,7 +7,6 @@ services:
     volumes:
       - app-data:/app/data
     networks:
-      - jenkins-net
       - proxy
 
 volumes:
@@ -15,6 +14,4 @@ volumes:
 
 networks:
   proxy:
-    external: true
-  jenkins-net:
     external: true
