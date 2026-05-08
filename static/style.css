@@ -355,6 +355,19 @@ a:hover { text-decoration: underline; }
 .scripture-text {
     font-family: 'PT Serif', serif; font-size: 1.05rem; line-height: 1.85;
 }
+/* Verse numbers in scripture text */
+.vn {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 0.7em;
+    font-weight: 700;
+    color: var(--accent-light);
+    vertical-align: super;
+    margin-right: 0.15em;
+    line-height: 0;
+    cursor: default;
+    user-select: none;
+}
+
 
 .scripture {
     font-family: 'PT Serif', serif; font-size: 1.02rem;
