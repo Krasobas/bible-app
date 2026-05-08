@@ -73,6 +73,7 @@ a:hover { text-decoration: underline; }
     padding: 0.4rem 1.5rem;
     font-size: 0.82rem;
     overflow-x: auto;
+    flex-shrink: 0;
 }
 .subnav::-webkit-scrollbar { display: none; }
 .subnav { -ms-overflow-style: none; scrollbar-width: none; }
@@ -226,9 +227,16 @@ a:hover { text-decoration: underline; }
    LECTURE PAGE — v3 Two-column layout
    ================================================================ */
 
+.lecture-layout {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--topbar-h));
+}
+
 .page-wrapper {
     display: flex;
-    height: calc(100vh - var(--topbar-h));
+    flex: 1;
+    min-height: 0;
     overflow: hidden;
 }
 

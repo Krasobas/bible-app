@@ -3,22 +3,24 @@
 {% block title %}{{ lecture.title }} — {{ course.title }} — {{ site_title }}{% endblock %}
 
 {% block content %}
-<div class="page-wrapper">
+<div class="lecture-layout">
 
-    <!-- Sub-navigation for this course -->
-    <div class="subnav">
-        <div class="subnav-inner">
-            {% for lec in course.lectures %}
-            <a href="/{{ course.slug }}/{{ lec.slug }}/"
-               class="subnav-link {% if lec.slug == lecture.slug %}active{% endif %}"
-            >{{ lec.title }}</a>
-            {% endfor %}
-            <span class="subnav-sep">|</span>
-            {% for ref in ref_pages %}
-            <a href="/{{ course.slug }}/ref/{{ ref.slug }}/" class="subnav-ref">{{ ref.title }}</a>
-            {% endfor %}
-        </div>
+<!-- Sub-navigation for this course -->
+<div class="subnav">
+    <div class="subnav-inner">
+        {% for lec in course.lectures %}
+        <a href="/{{ course.slug }}/{{ lec.slug }}/"
+           class="subnav-link {% if lec.slug == lecture.slug %}active{% endif %}"
+        >{{ lec.title }}</a>
+        {% endfor %}
+        <span class="subnav-sep">|</span>
+        {% for ref in ref_pages %}
+        <a href="/{{ course.slug }}/ref/{{ ref.slug }}/" class="subnav-ref">{{ ref.title }}</a>
+        {% endfor %}
     </div>
+</div>
+
+<div class="page-wrapper">
 
     <!-- Scripture column -->
     <div class="scripture-column scroll-hidden" id="scriptureCol">
@@ -53,6 +55,8 @@
             <button class="close-commentary" onclick="closeCommentary()">✕ Закрыть</button>
         </div>
     </div>
+
+</div>
 
 </div>
 {% endblock %}
