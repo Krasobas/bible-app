@@ -1,0 +1,20 @@
+services:
+  bible-app:
+    build: .
+    container_name: bible-study-app
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - app-data:/app/data
+    networks:
+      - jenkins-net
+      - proxy
+
+volumes:
+  app-data:
+
+networks:
+  proxy:
+    external: true
+  jenkins-net:
+    external: true

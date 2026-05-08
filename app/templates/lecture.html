@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ lecture.title }} — {{ course.title }} — {{ site_title }}{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+
+    <!-- Sub-navigation for this course -->
+    <div class="subnav">
+        <div class="subnav-inner">
+            {% for lec in course.lectures %}
+            <a href="/{{ course.slug }}/{{ lec.slug }}/"
+               class="subnav-link {% if lec.slug == lecture.slug %}active{% endif %}"
+            >{{ lec.title }}</a>
+            {% endfor %}
+            <span class="subnav-sep">|</span>
+            {% for ref in ref_pages %}
+            <a href="/{{ course.slug }}/ref/{{ ref.slug }}/" class="subnav-ref">{{ ref.title }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Scripture column -->
+    <div class="scripture-column scroll-hidden" id="scriptureCol">
+
+        <h1>{{ lecture.title }}</h1>
+        {% if lecture.subtitle %}<p class="subtitle">{{ lecture.subtitle }}</p>{% endif %}
+
+        {{ lecture.content | safe }}
+
+        <!-- Prev / Next navigation -->
+        <div class="lecture-nav">
+            {% if prev_lecture %}
+            <a href="/{{ course.slug }}/{{ prev_lecture.slug }}/" class="lecture-nav-prev">
+                ← {{ prev_lecture.title }}
+            </a>
+            {% else %}
+            <span></span>
+            {% endif %}
+            {% if next_lecture %}
+            <a href="/{{ course.slug }}/{{ next_lecture.slug }}/" class="lecture-nav-next">
+                {{ next_lecture.title }} →
+            </a>
+            {% endif %}
+        </div>
+
+        <div class="footer">← <a href="/{{ course.slug }}/">{{ course.title }}</a></div>
+    </div>
+
+    <!-- Commentary panel (desktop only, populated by JS) -->
+    <div class="commentary-panel scroll-hidden" id="commentaryPanel">
+        <div class="commentary-inner" id="commentaryInner">
+            <button class="close-commentary" onclick="closeCommentary()">✕ Закрыть</button>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Activate v3 passage toggle if passages exist
+initPassageToggle();
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ ref_page.title }} — {{ course.title }} — {{ site_title }}{% endblock %}
+
+{% block content %}
+<div class="ref-page">
+
+    <!-- Sub-navigation for this course -->
+    <div class="subnav">
+        <div class="subnav-inner">
+            {% for lec in lectures %}
+            <a href="/{{ course.slug }}/{{ lec.slug }}/" class="subnav-link">{{ lec.title }}</a>
+            {% endfor %}
+            <span class="subnav-sep">|</span>
+            {% for ref in ref_pages %}
+            <a href="/{{ course.slug }}/ref/{{ ref.slug }}/"
+               class="subnav-ref {% if ref.slug == ref_page.slug %}active{% endif %}"
+            >{{ ref.title }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="ref-content">
+        <h1>{{ ref_page.title }}</h1>
+        {{ ref_page.content | safe }}
+    </div>
+
+    <div class="footer">← <a href="/{{ course.slug }}/">{{ course.title }}</a></div>
+</div>
+{% endblock %}

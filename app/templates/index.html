@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site_title }} — {{ site_subtitle }}{% endblock %}
+
+{% block content %}
+<div class="landing">
+    <div class="landing-hero">
+        <h1>{{ site_title }}</h1>
+        <p class="landing-subtitle">{{ site_subtitle }}</p>
+    </div>
+
+    <div class="course-grid">
+        {% for c in courses_with_counts %}
+        <a href="/{{ c.slug }}/" class="course-card">
+            <div class="course-card-type">{{ '📖 Книга' if c.course_type == 'book' else '✦ Тема' }}</div>
+            <h2>{{ c.title }}</h2>
+            {% if c.subtitle %}<p class="course-card-subtitle">{{ c.subtitle }}</p>{% endif %}
+            <div class="course-card-meta">
+                {{ c._lecture_count }} лекци{% if c._lecture_count == 1 %}я{% elif c._lecture_count < 5 %}и{% else %}й{% endif %}{% if c._ref_count %} · {{ c._ref_count }} справ.{% endif %}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
