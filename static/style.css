@@ -1,5 +1,5 @@
 /* ================================================================
-   Bible Study Circle — Main Stylesheet
+   Bible Study Circle — Main Stylesheet v6
    ================================================================ */
 
 :root {
@@ -28,6 +28,10 @@
     /* Table colors */
     --table-header: #7a5c3a;
     --table-stripe: #f3ece2;
+    /* Timeline dot colors */
+    --dot-hist: #7a5c3a;
+    --dot-lit: #4a6fa5;
+    --dot-ritual: #c17817;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -444,6 +448,11 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     font-size: 0.82rem; text-transform: uppercase;
     letter-spacing: 0.03em; margin-bottom: 0.3rem;
 }
+.scholar-box .scholar-title {
+    font-weight: 700; color: var(--scholar-border);
+    font-size: 0.82rem; text-transform: uppercase;
+    letter-spacing: 0.03em; margin-bottom: 0.3rem;
+}
 
 .xref-box {
     background: var(--quote-bg); border-left: 3px solid var(--accent-light);
@@ -451,13 +460,91 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     border-radius: 0 4px 4px 0; font-size: 0.9rem;
 }
 
+/* ================================================================
+   TIMELINE BOX (in lecture commentary)
+   ================================================================ */
+
 .timeline-box {
-    background: var(--quote-bg); border: 1px solid var(--border);
-    border-radius: 6px; padding: 1rem; margin: 1rem 0;
+    background: var(--quote-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 1.2rem 1rem;
+    margin: 1.2rem 0;
     font-size: 0.88rem;
+}
+.timeline-box .tl-title {
+    font-family: 'PT Serif', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
 }
 .timeline-box .tl-year {
     font-weight: 700; color: var(--accent); margin-right: 0.5rem;
+}
+
+/* Timeline items — vertical line layout */
+.timeline-box .tl-item {
+    position: relative;
+    padding-left: 28px;
+    padding-bottom: 0.9rem;
+    margin-bottom: 0;
+}
+.timeline-box .tl-item:last-child {
+    padding-bottom: 0;
+}
+
+/* Vertical line */
+.timeline-box .tl-item::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+}
+.timeline-box .tl-item:last-child::before {
+    display: none;
+}
+
+/* Dot */
+.timeline-box .tl-dot {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    z-index: 1;
+}
+.timeline-box .tl-dot.hist { background: var(--dot-hist); }
+.timeline-box .tl-dot.lit  { background: var(--dot-lit); }
+.timeline-box .tl-dot.ritual { background: var(--dot-ritual); }
+
+/* Content */
+.timeline-box .tl-content {
+    padding-top: 0;
+}
+.timeline-box .tl-label {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--fg);
+    margin-bottom: 0.15rem;
+}
+.timeline-box .tl-desc {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 0.15rem;
+}
+.timeline-box .tl-ref {
+    font-size: 0.78rem;
+    color: var(--accent-light);
+    font-style: italic;
 }
 
 .quote-table {
@@ -636,13 +723,20 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 }
 
 
-/* Leaflet mini-map in lecture passages */
+/* ================================================================
+   LEAFLET MAPS — Mini-maps in lectures + Geography page
+   ================================================================ */
+
 .leaflet-mini-map {
     height: 280px;
     border-radius: 6px;
     border: 1px solid var(--border);
     margin: 0.8rem 0;
     z-index: 1;
+}
+.mini-map-container {
+    position: relative;
+    margin: 1rem 0;
 }
 .mini-map-title {
     font-family: 'PT Serif', serif;
@@ -652,21 +746,43 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     font-weight: 700;
 }
 
-/* Fullscreen map toggle */
-.map-fullscreen {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 9999 !important;
-    border-radius: 0 !important;
-    margin: 0 !important;
+/* Fullscreen overlay — appended to <body> by JS */
+.map-fullscreen-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 99999;
+    background: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
 }
+.map-fullscreen-overlay .map-fs-close {
+    position: absolute;
+    top: 12px; right: 12px;
+    z-index: 100001;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.map-fullscreen-overlay .map-fs-close:hover {
+    background: var(--quote-bg);
+}
+.map-fullscreen-overlay .map-fs-map {
+    flex: 1;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+/* Fullscreen button (non-overlay version — geography page) */
 .map-fullscreen-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 10px; right: 10px;
     z-index: 1000;
     background: #fff;
     border: 1px solid var(--border);
@@ -682,6 +798,21 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
 .map-container {
     position: relative;
 }
+
+/* Geography page fullscreen class (CSS-based, for toggleMapFullscreen) */
+.map-fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    background: #fff !important;
+    padding: 10px !important;
+}
+
 @media (max-width: 640px) {
     .ref-content #map { height: 300px; }
     .ref-content .loc-grid { grid-template-columns: 1fr; }
@@ -971,6 +1102,11 @@ h3 { font-family: 'PT Serif', serif; color: var(--accent); }
     }
     .lecture-nav-prev { order: 2; }
     .lecture-nav-next { order: 1; }
+
+    /* Timeline: smaller on mobile */
+    .timeline-box .tl-item { padding-left: 24px; }
+    .timeline-box .tl-dot { width: 14px; height: 14px; }
+    .timeline-box .tl-item::before { left: 6px; }
 }
 
 @keyframes slideDown {

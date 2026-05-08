@@ -1,10 +1,11 @@
 /**
- * Bible Study Circle — Main JavaScript
+ * Bible Study Circle — Main JavaScript v2
  *
  * Handles the v3 interactive layout:
  * - Desktop: click passage → scripture shifts left, commentary panel opens right
  * - Mobile: accordion — commentary expands inline below passage
- * - Keyboard: Escape closes commentary
+ * - Keyboard: Escape closes commentary or fullscreen map
+ * - Fullscreen maps: overlay approach (appended to body)
  */
 
 let activePassage = null;
@@ -18,7 +19,6 @@ function isMobile() {
  * Called from lecture template; safe to call when no passages exist.
  */
 function initPassageToggle() {
-    // Passages with data-passage attribute are interactive
     const passages = document.querySelectorAll('.passage[data-passage]');
     if (passages.length === 0) return;
 
@@ -136,9 +136,176 @@ window.addEventListener('resize', () => {
     }
 });
 
-// Keyboard: Escape closes commentary
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && activePassage) {
-        closeCommentary();
+
+/* ================================================================
+   FULLSCREEN MAP — Overlay approach
+   ================================================================
+ *
+ * Instead of making the map container position:fixed (which can fail
+ * inside panels with overflow/transform), we create a dedicated
+ * overlay div appended to document.body and move the map div into it.
+ * On exit, we move the map div back to its original parent.
+ *
+ * Two entry points:
+ *   toggleMiniMapFullscreen(btn)  — for lecture mini-maps (onclick on button)
+ *   toggleMapFullscreen()         — for geography page (no params)
+ */
+
+// Track the overlay state
+let _fsOverlay = null;      // the overlay div
+let _fsMapDiv = null;       // the map div that was moved
+let _fsOriginalParent = null; // original parent of mapDiv
+let _fsOriginalNextSibling = null; // original next sibling for reinsertion
+let _fsMapObjName = null;   // window property name for the Leaflet map object
+let _fsIsGeography = false; // geography vs mini-map
+
+/**
+ * Mini-map fullscreen toggle (called from lecture buttons).
+ * @param {HTMLElement} btn - The fullscreen toggle button
+ */
+function toggleMiniMapFullscreen(btn) {
+    // If already in fullscreen via overlay, exit
+    if (_fsOverlay) {
+        _exitMapFullscreen();
+        return;
+    }
+
+    var mc = btn.parentElement;
+    var mapDiv = mc ? mc.querySelector('[id^="minimap"]') : null;
+    if (!mapDiv) return;
+
+    var mapObjName = mapDiv.id + '_map';
+    var mapObj = window[mapObjName];
+
+    _enterMapFullscreen(mapDiv, mapObj, mapObjName, false);
+}
+
+/**
+ * Geography page fullscreen toggle (called from geography page).
+ */
+function toggleMapFullscreen() {
+    // If already in fullscreen via overlay, exit
+    if (_fsOverlay) {
+        _exitMapFullscreen();
+        return;
+    }
+
+    var mapDiv = document.getElementById('map');
+    if (!mapDiv) return;
+
+    // The geography map object is stored in a variable called 'map'
+    var mapObj = window.map;
+    _enterMapFullscreen(mapDiv, mapObj, 'map', true);
+}
+
+/**
+ * Enter fullscreen: create overlay, move map into it.
+ */
+function _enterMapFullscreen(mapDiv, mapObj, mapObjName, isGeography) {
+    _fsMapDiv = mapDiv;
+    _fsOriginalParent = mapDiv.parentElement;
+    _fsOriginalNextSibling = mapDiv.nextElementSibling;
+    _fsMapObjName = mapObjName;
+    _fsIsGeography = isGeography;
+
+    // Remember original height
+    var origHeight = mapDiv.style.height || (isGeography ? '500px' : '280px');
+
+    // Create overlay
+    var overlay = document.createElement('div');
+    overlay.className = 'map-fullscreen-overlay';
+    overlay.setAttribute('data-orig-height', origHeight);
+
+    // Close button
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'map-fs-close';
+    closeBtn.textContent = '✕';
+    closeBtn.onclick = function(e) {
+        e.stopPropagation();
+        _exitMapFullscreen();
+    };
+    overlay.appendChild(closeBtn);
+
+    // Map container inside overlay
+    var mapContainer = document.createElement('div');
+    mapContainer.className = 'map-fs-map';
+    overlay.appendChild(mapContainer);
+
+    // Append overlay to body
+    document.body.appendChild(overlay);
+    _fsOverlay = overlay;
+
+    // Move map div into the overlay container
+    mapContainer.appendChild(mapDiv);
+    mapDiv.style.height = '100%';
+    mapDiv.style.width = '100%';
+
+    // Invalidate and refocus
+    setTimeout(function() {
+        if (mapObj && typeof mapObj.invalidateSize === 'function') {
+            mapObj.invalidateSize();
+            if (isGeography) {
+                mapObj.setView([32.1, 35.3], 8);
+            } else if (mapObj.getBounds && mapObj.getBounds().isValid()) {
+                mapObj.fitBounds(mapObj.getBounds().pad(0.15));
+            }
+        }
+    }, 250);
+}
+
+/**
+ * Exit fullscreen: move map back, remove overlay.
+ */
+function _exitMapFullscreen() {
+    if (!_fsOverlay || !_fsMapDiv || !_fsOriginalParent) return;
+
+    var mapObj = window[_fsMapObjName];
+    var origHeight = _fsOverlay.getAttribute('data-orig-height') || '280px';
+
+    // Move map div back to original parent
+    if (_fsOriginalNextSibling) {
+        _fsOriginalParent.insertBefore(_fsMapDiv, _fsOriginalNextSibling);
+    } else {
+        _fsOriginalParent.appendChild(_fsMapDiv);
+    }
+
+    // Restore map div dimensions
+    _fsMapDiv.style.height = origHeight;
+    _fsMapDiv.style.width = '';
+    _fsMapDiv.style.borderRadius = '6px';
+    _fsMapDiv.style.border = '1px solid var(--border)';
+
+    // Remove overlay
+    _fsOverlay.remove();
+    _fsOverlay = null;
+
+    // Invalidate and refocus
+    setTimeout(function() {
+        if (mapObj && typeof mapObj.invalidateSize === 'function') {
+            mapObj.invalidateSize();
+            if (_fsIsGeography) {
+                mapObj.setView([32.1, 35.3], 8);
+            } else if (mapObj.getBounds && mapObj.getBounds().isValid()) {
+                mapObj.fitBounds(mapObj.getBounds().pad(0.15));
+            }
+        }
+    }, 250);
+
+    // Reset state
+    _fsMapDiv = null;
+    _fsOriginalParent = null;
+    _fsOriginalNextSibling = null;
+    _fsMapObjName = null;
+    _fsIsGeography = false;
+}
+
+// Keyboard: Escape closes fullscreen map first, then commentary
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        if (_fsOverlay) {
+            _exitMapFullscreen();
+        } else if (activePassage) {
+            closeCommentary();
+        }
     }
 });
