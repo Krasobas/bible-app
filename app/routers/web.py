@@ -44,6 +44,17 @@ def course_page(course_slug: str, request: Request, db: Session = Depends(get_db
         raise HTTPException(status_code=404, detail="Course not found")
     lectures = db.query(Lecture).filter(Lecture.course_id == course.id).order_by(Lecture.sort_order).all()
     ref_pages = db.query(RefPage).filter(RefPage.course_id == course.id).order_by(RefPage.sort_order).all()
+
+    # Special courses with a single lecture: render the lecture content directly
+    if course.course_type == "special" and len(lectures) == 1:
+        lecture = lectures[0]
+        ctx.update(
+            course=course, lecture=lecture,
+            prev_lecture=None, next_lecture=None,
+            ref_pages=ref_pages,
+        )
+        return templates.TemplateResponse("special.html", ctx)
+
     ctx.update(course=course, lectures=lectures, ref_pages=ref_pages)
     return templates.TemplateResponse("course.html", ctx)
 

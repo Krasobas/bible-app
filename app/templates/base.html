@@ -15,7 +15,7 @@
     {% for c in courses %}
     <a href="/{{ c.slug }}/"
        class="{% if course is defined and course.slug == c.slug %}current{% endif %}"
-    >{{ c.title }}</a>
+    >{% if c.slug == 'paskha' %}Пасха{% elif c.slug == 'luke' %}Лука{% else %}{{ c.title }}{% endif %}</a>
     {% endfor %}
 </nav>
 

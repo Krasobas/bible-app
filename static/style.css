@@ -241,6 +241,52 @@ a:hover { text-decoration: underline; }
 
 
 /* ================================================================
+   SPECIAL PAGE — Standalone overview lectures
+   ================================================================ */
+
+.special-page {
+    max-width: 860px; margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+}
+.special-content h1 {
+    font-family: 'PT Serif', serif; font-size: 2.2rem;
+    color: var(--accent); margin-bottom: 0.3rem;
+}
+.special-content .subtitle {
+    font-size: 1.1rem; color: var(--accent-light); margin-bottom: 2rem;
+}
+
+/* Landing page — special/overview section */
+.landing-section { margin-bottom: 2.5rem; }
+.landing-section-title {
+    font-family: 'PT Serif', serif; font-size: 1.2rem;
+    color: var(--accent); border-bottom: 2px solid var(--accent);
+    padding-bottom: 0.3rem; margin-bottom: 1rem;
+}
+.special-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.2rem;
+}
+.special-card {
+    display: block; background: #fff;
+    border: 2px solid var(--accent); border-radius: 10px;
+    padding: 1.8rem; text-decoration: none; color: var(--fg);
+    transition: box-shadow 0.2s, transform 0.15s;
+}
+.special-card:hover {
+    box-shadow: 0 6px 24px rgba(122,92,58,0.18);
+    transform: translateY(-2px); text-decoration: none;
+}
+.special-card h3 {
+    font-family: 'PT Serif', serif; font-size: 1.3rem;
+    color: var(--accent); margin-bottom: 0.3rem;
+}
+.special-card p {
+    font-size: 0.92rem; color: var(--accent-light);
+}
+
+/* ================================================================
    LECTURE PAGE — v3 Two-column layout
    ================================================================ */
 
