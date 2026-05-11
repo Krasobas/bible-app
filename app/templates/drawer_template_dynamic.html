@@ -1,0 +1,111 @@
+<!--
+  ДИНАМИЧЕСКИЙ ВАРИАНТ ШАБЛОНА
+  
+  Использует существующий цикл сервера по курсам, но группирует их
+  по категориям через словарь course_categories.
+  
+  Преимущества: при добавлении нового курса через API он автоматически
+  появится в drawer (если его slug добавлен в course_categories).
+  
+  Вариант для base.html — заменяет весь блок <nav class="topbar">...</nav>
+-->
+
+{% set course_categories = {
+    "luke": "Евангелие",
+    "paskha": "Обзорные лекции",
+    "angelology": "Обзорные лекции",
+    "nativity": "Мир I века",
+    "social-structure": "Мир I века",
+    "festivals": "Мир I века",
+    "temple": "Мир I века",
+    "roman-occupation": "Мир I века",
+    "synagogue": "Мир I века",
+    "women-first-century": "Мир I века",
+    "messianic-expectations": "Вера и мировоззрение",
+    "apocalyptic": "Вера и мировоззрение",
+    "qumran": "Вера и мировоззрение",
+    "jewish-beliefs": "Вера и мировоззрение",
+    "healing-possession": "Повседневность",
+    "death-burial": "Повседневность",
+    "meals-purity": "Повседневность",
+    "ot-history": "Ветхий Завет",
+    "bible-overview": "Ветхий Завет",
+} %}
+
+{% set category_order = ["Евангелие", "Обзорные лекции", "Мир I века", "Вера и мировоззрение", "Повседневность", "Ветхий Завет"] %}
+
+{# Group courses by category, preserving order #}
+{% set ns = namespace(grouped={}) %}
+{% for cat in category_order %}
+    {% set _ = ns.grouped.update({cat: []}) %}
+{% endfor %}
+{% for course in courses %}
+    {% set cat = course_categories.get(course.slug, "Обзорные лекции") %}
+    {% if cat in ns.grouped %}
+        {% set _ = ns.grouped[cat].append(course) %}
+    {% else %}
+        {# New category not in order — add to end #}
+        {% set _ = ns.grouped.update({cat: [course]}) %}
+    {% endif %}
+{% endfor %}
+
+<!-- TOPBAR -->
+<nav class="topbar">
+    <a href="/" class="brand">Библейский кружок</a>
+    {% if current_course %}
+    <span class="current-course"><span>{{ current_course.title }}</span></span>
+    {% endif %}
+    <button class="menu-btn" onclick="toggleCourseDrawer()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="2" y1="4" x2="14" y2="4"/>
+            <line x1="2" y1="8" x2="14" y2="8"/>
+            <line x1="2" y1="12" x2="14" y2="12"/>
+        </svg>
+        Все курсы
+    </button>
+</nav>
+
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleCourseDrawer()"></div>
+
+<!-- COURSE DRAWER -->
+<div class="drawer" id="courseDrawer">
+    <div class="drawer-header">
+        <a href="/" class="drawer-brand">Библейский кружок</a>
+        <button class="drawer-close" onclick="toggleCourseDrawer()">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+                <line x1="4" y1="4" x2="14" y2="14"/>
+                <line x1="14" y1="4" x2="4" y2="14"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="drawer-search">
+        <div class="drawer-search-wrap">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="7" cy="7" r="4.5"/><line x1="10.2" y1="10.2" x2="14" y2="14"/>
+            </svg>
+            <input type="text" id="drawerSearchInput" placeholder="Найти курс..." oninput="filterDrawerCourses()" />
+        </div>
+    </div>
+
+    <div class="drawer-body">
+        {% for cat_name, cat_courses in ns.grouped.items() %}
+        {% if cat_courses %}
+        <div class="drawer-group">
+            <div class="drawer-group-header" onclick="toggleDrawerGroup(this)">
+                <span class="drawer-group-title">{{ cat_name }}</span>
+                <svg class="drawer-group-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,5 7,9 11,5"/></svg>
+            </div>
+            <div class="drawer-group-links">
+                {% for course in cat_courses %}
+                <a href="/{{ course.slug }}/"
+                   class="drawer-link {% if current_course and current_course.slug == course.slug %}active{% endif %}"
+                >{{ course.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>

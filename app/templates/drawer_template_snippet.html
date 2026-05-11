@@ -1,0 +1,136 @@
+<!--
+  ЗАМЕНА: Старый <nav class="topbar">...</nav> (со всеми ссылками курсов)
+  заменяется на новый компактный topbar + drawer panel.
+  
+  Категории для группировки курсов в drawer.
+  Если добавляете новый курс — добавьте его в нужную группу.
+  
+  Переменные шаблона:
+    current_slug — slug текущего курса (для подсветки active)
+    current_title — название текущего курса (для отображения в topbar)
+    courses — список всех курсов (если передаётся из маршрута)
+-->
+
+<!-- ===== TOPBAR: Compact — brand + current course + button ===== -->
+<nav class="topbar">
+    <a href="/" class="brand">Библейский кружок</a>
+    {% if current_title %}
+    <span class="current-course"><span>{{ current_title }}</span></span>
+    {% endif %}
+    <button class="menu-btn" onclick="toggleCourseDrawer()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="2" y1="4" x2="14" y2="4"/>
+            <line x1="2" y1="8" x2="14" y2="8"/>
+            <line x1="2" y1="12" x2="14" y2="12"/>
+        </svg>
+        Все курсы
+    </button>
+</nav>
+
+<!-- ===== DRAWER OVERLAY ===== -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleCourseDrawer()"></div>
+
+<!-- ===== COURSE DRAWER ===== -->
+<div class="drawer" id="courseDrawer">
+    <div class="drawer-header">
+        <a href="/" class="drawer-brand">Библейский кружок</a>
+        <button class="drawer-close" onclick="toggleCourseDrawer()">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+                <line x1="4" y1="4" x2="14" y2="14"/>
+                <line x1="14" y1="4" x2="4" y2="14"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="drawer-search">
+        <div class="drawer-search-wrap">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="7" cy="7" r="4.5"/><line x1="10.2" y1="10.2" x2="14" y2="14"/>
+            </svg>
+            <input type="text" id="drawerSearchInput" placeholder="Найти курс..." oninput="filterDrawerCourses()" />
+        </div>
+    </div>
+
+    <div class="drawer-body">
+
+        <!-- Евангелие -->
+        <div class="drawer-group">
+            <div class="drawer-group-header" onclick="toggleDrawerGroup(this)">
+                <span class="drawer-group-title">Евангелие</span>
+                <svg class="drawer-group-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,5 7,9 11,5"/></svg>
+            </div>
+            <div class="drawer-group-links">
+                <a href="/luke/" class="drawer-link {% if current_slug == 'luke' %}active{% endif %}">Лука</a>
+            </div>
+        </div>
+
+        <!-- Обзорные лекции -->
+        <div class="drawer-group">
+            <div class="drawer-group-header" onclick="toggleDrawerGroup(this)">
+                <span class="drawer-group-title">Обзорные лекции</span>
+                <svg class="drawer-group-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,5 7,9 11,5"/></svg>
+            </div>
+            <div class="drawer-group-links">
+                <a href="/paskha/" class="drawer-link {% if current_slug == 'paskha' %}active{% endif %}">Пасха</a>
+                <a href="/angelology/" class="drawer-link {% if current_slug == 'angelology' %}active{% endif %}">Ангелология и демонология</a>
+            </div>
+        </div>
+
+        <!-- Мир I века -->
+        <div class="drawer-group">
+            <div class="drawer-group-header" onclick="toggleDrawerGroup(this)">
+                <span class="drawer-group-title">Мир I века</span>
+                <svg class="drawer-group-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,5 7,9 11,5"/></svg>
+            </div>
+            <div class="drawer-group-links">
+                <a href="/nativity/" class="drawer-link {% if current_slug == 'nativity' %}active{% endif %}">Рождество</a>
+                <a href="/social-structure/" class="drawer-link {% if current_slug == 'social-structure' %}active{% endif %}">Общество I века</a>
+                <a href="/festivals/" class="drawer-link {% if current_slug == 'festivals' %}active{% endif %}">Праздники и значимые дни</a>
+                <a href="/temple/" class="drawer-link {% if current_slug == 'temple' %}active{% endif %}">Храм Ирода</a>
+                <a href="/roman-occupation/" class="drawer-link {% if current_slug == 'roman-occupation' %}active{% endif %}">Римская оккупация</a>
+                <a href="/synagogue/" class="drawer-link {% if current_slug == 'synagogue' %}active{% endif %}">Синагога</a>
+                <a href="/women-first-century/" class="drawer-link {% if current_slug == 'women-first-century' %}active{% endif %}">Женщины в мире Иисуса</a>
+            </div>
+        </div>
+
+        <!-- Вера и мировоззрение -->
+        <div class="drawer-group">
+            <div class="drawer-group-header" onclick="toggleDrawerGroup(this)">
+                <span class="drawer-group-title">Вера и мировоззрение</span>
+                <svg class="drawer-group-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,5 7,9 11,5"/></svg>
+            </div>
+            <div class="drawer-group-links">
+                <a href="/messianic-expectations/" class="drawer-link {% if current_slug == 'messianic-expectations' %}active{% endif %}">Мессианские ожидания</a>
+                <a href="/apocalyptic/" class="drawer-link {% if current_slug == 'apocalyptic' %}active{% endif %}">Апокалиптика</a>
+                <a href="/qumran/" class="drawer-link {% if current_slug == 'qumran' %}active{% endif %}">Кумран и ессеи</a>
+                <a href="/jewish-beliefs/" class="drawer-link {% if current_slug == 'jewish-beliefs' %}active{% endif %}">Во что верили современники Иисуса</a>
+            </div>
+        </div>
+
+        <!-- Повседневность -->
+        <div class="drawer-group">
+            <div class="drawer-group-header" onclick="toggleDrawerGroup(this)">
+                <span class="drawer-group-title">Повседневность</span>
+                <svg class="drawer-group-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,5 7,9 11,5"/></svg>
+            </div>
+            <div class="drawer-group-links">
+                <a href="/healing-possession/" class="drawer-link {% if current_slug == 'healing-possession' %}active{% endif %}">Болезнь, целительство, одержимость</a>
+                <a href="/death-burial/" class="drawer-link {% if current_slug == 'death-burial' %}active{% endif %}">Смерть и погребение</a>
+                <a href="/meals-purity/" class="drawer-link {% if current_slug == 'meals-purity' %}active{% endif %}">Пища, трапеза, чистота</a>
+            </div>
+        </div>
+
+        <!-- Ветхий Завет -->
+        <div class="drawer-group">
+            <div class="drawer-group-header" onclick="toggleDrawerGroup(this)">
+                <span class="drawer-group-title">Ветхий Завет</span>
+                <svg class="drawer-group-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,5 7,9 11,5"/></svg>
+            </div>
+            <div class="drawer-group-links">
+                <a href="/ot-history/" class="drawer-link {% if current_slug == 'ot-history' %}active{% endif %}">История Ветхого Завета</a>
+                <a href="/bible-overview/" class="drawer-link {% if current_slug == 'bible-overview' %}active{% endif %}">Обзор книг Библии</a>
+            </div>
+        </div>
+
+    </div>
+</div>
