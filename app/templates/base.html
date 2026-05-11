@@ -10,41 +10,21 @@
 </head>
 <body>
 
-{# ── Category mapping for drawer grouping ── #}
-{% set course_categories = {
-    "luke": "Евангелие",
-    "paskha": "Обзорные лекции",
-    "angelology": "Обзорные лекции",
-    "nativity": "Мир I века",
-    "social-structure": "Мир I века",
-    "festivals": "Мир I века",
-    "temple": "Мир I века",
-    "roman-occupation": "Мир I века",
-    "synagogue": "Мир I века",
-    "women-first-century": "Мир I века",
-    "messianic-expectations": "Вера и мировоззрение",
-    "apocalyptic": "Вера и мировоззрение",
-    "qumran": "Вера и мировоззрение",
-    "jewish-beliefs": "Вера и мировоззрение",
-    "healing-possession": "Повседневность",
-    "death-burial": "Повседневность",
-    "meals-purity": "Повседневность",
-    "ot-history": "Ветхий Завет",
-    "bible-overview": "Ветхий Завет",
-} %}
+{# ── Group courses by category from DB ── #}
 {% set category_order = ["Евангелие", "Обзорные лекции", "Мир I века", "Вера и мировоззрение", "Повседневность", "Ветхий Завет"] %}
-
-{# ── Group courses by category ── #}
 {% set ns = namespace(grouped={}) %}
 {% for cat in category_order %}
     {% set _ = ns.grouped.update({cat: []}) %}
 {% endfor %}
 {% for c in courses %}
-    {% set cat = course_categories.get(c.slug, "Обзорные лекции") %}
+    {% set cat = c.category if c.category else "Обзорные лекции" %}
     {% if cat in ns.grouped %}
         {% set _ = ns.grouped[cat].append(c) %}
     {% else %}
-        {% set _ = ns.grouped.update({cat: [c]}) %}
+        {% if cat not in ns.grouped %}
+            {% set _ = ns.grouped.update({cat: []}) %}
+        {% endif %}
+        {% set _ = ns.grouped[cat].append(c) %}
     {% endif %}
 {% endfor %}
 
@@ -108,21 +88,16 @@
         {% endif %}
         {% endfor %}
 
-        {# Courses not in category_order mapping — show as "Другие" #}
-        {% set uncategorized = [] %}
-        {% for c in courses %}
-            {% if c.slug not in course_categories %}
-                {% set _ = uncategorized.append(c) %}
-            {% endif %}
-        {% endfor %}
-        {% if uncategorized %}
+        {# Courses with category not in category_order — show as their own group #}
+        {% for cat_name, cat_courses in ns.grouped.items() %}
+        {% if cat_name not in category_order and cat_courses %}
         <div class="drawer-group">
             <div class="drawer-group-header" onclick="toggleDrawerGroup(this)">
-                <span class="drawer-group-title">Другие</span>
+                <span class="drawer-group-title">{{ cat_name }}</span>
                 <svg class="drawer-group-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,5 7,9 11,5"/></svg>
             </div>
             <div class="drawer-group-links">
-                {% for c in uncategorized %}
+                {% for c in cat_courses %}
                 <a href="/{{ c.slug }}/"
                    class="drawer-link {% if course is defined and course.slug == c.slug %}active{% endif %}"
                 >{{ c.title }}</a>
@@ -130,6 +105,7 @@
             </div>
         </div>
         {% endif %}
+        {% endfor %}
     </div>
 </div>
 

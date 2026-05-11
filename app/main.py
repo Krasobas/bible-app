@@ -32,3 +32,16 @@ app.include_router(web.router)
 @app.on_event("startup")
 def startup():
     init_db()
+    _migrate_add_category()
+
+
+def _migrate_add_category():
+    """Add 'category' column to courses table if it doesn't exist (one-time migration)."""
+    from sqlalchemy import text, inspect
+    from app.database import engine
+    with engine.connect() as conn:
+        insp = inspect(engine)
+        columns = [c["name"] for c in insp.get_columns("courses")]
+        if "category" not in columns:
+            conn.execute(text("ALTER TABLE courses ADD COLUMN category VARCHAR DEFAULT ''"))
+            conn.commit()

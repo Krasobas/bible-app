@@ -23,6 +23,7 @@ class Course(Base):
     subtitle = Column(String, default="")
     description = Column(Text, default="")
     course_type = Column(String, default="book")  # "book" | "special"
+    category = Column(String, default="")  # display category for drawer, e.g. "Евангелие", "Мир I века"
     sort_order = Column(Integer, default=0)
     created_at = Column(DateTime, default=_now)
     updated_at = Column(DateTime, default=_now, onupdate=_now)

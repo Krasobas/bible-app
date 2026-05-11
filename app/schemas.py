@@ -11,6 +11,7 @@ class CourseCreate(BaseModel):
     subtitle: str = ""
     description: str = ""
     course_type: str = Field("book", pattern=r"^(book|special)$")
+    category: str = ""
     sort_order: int = 0
 
 
@@ -19,6 +20,7 @@ class CourseUpdate(BaseModel):
     subtitle: Optional[str] = None
     description: Optional[str] = None
     course_type: Optional[str] = Field(None, pattern=r"^(book|special)$")
+    category: Optional[str] = None
     sort_order: Optional[int] = None
 
 
@@ -29,6 +31,7 @@ class CourseResponse(BaseModel):
     subtitle: str
     description: str
     course_type: str
+    category: str
     sort_order: int
     created_at: datetime
     updated_at: datetime
@@ -42,6 +45,7 @@ class CourseListItem(BaseModel):
     title: str
     subtitle: str
     course_type: str
+    category: str
     sort_order: int
     updated_at: datetime
     class Config:
