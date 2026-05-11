@@ -299,13 +299,66 @@ function _exitMapFullscreen() {
     _fsIsGeography = false;
 }
 
-// Keyboard: Escape closes fullscreen map first, then commentary
+// Keyboard: Escape closes drawer first, then fullscreen map, then commentary
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-        if (_fsOverlay) {
+        var drawer = document.getElementById('courseDrawer');
+        if (drawer && drawer.classList.contains('open')) {
+            toggleCourseDrawer();
+        } else if (_fsOverlay) {
             _exitMapFullscreen();
         } else if (activePassage) {
             closeCommentary();
         }
     }
 });
+
+
+/* ================================================================
+   COURSE DRAWER — Right slide-out panel with search & accordion
+   ================================================================ */
+
+function toggleCourseDrawer() {
+    var drawer = document.getElementById('courseDrawer');
+    var overlay = document.getElementById('drawerOverlay');
+    var btn = document.querySelector('.menu-btn');
+    if (!drawer || !overlay) return;
+
+    var isOpen = drawer.classList.contains('open');
+    drawer.classList.toggle('open');
+    overlay.classList.toggle('show');
+    if (btn) btn.classList.toggle('open');
+
+    if (!isOpen) {
+        if (btn) btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg> Закрыть';
+        var searchInput = document.getElementById('drawerSearchInput');
+        if (searchInput) setTimeout(function() { searchInput.focus(); }, 300);
+    } else {
+        if (btn) btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/></svg> Все курсы';
+        var searchInput = document.getElementById('drawerSearchInput');
+        if (searchInput) { searchInput.value = ''; filterDrawerCourses(); }
+    }
+}
+
+function toggleDrawerGroup(header) {
+    header.closest('.drawer-group').classList.toggle('collapsed');
+}
+
+function filterDrawerCourses() {
+    var input = document.getElementById('drawerSearchInput');
+    if (!input) return;
+    var q = input.value.toLowerCase().trim();
+    var groups = document.querySelectorAll('.drawer-group');
+    groups.forEach(function(g) {
+        var links = g.querySelectorAll('.drawer-link');
+        var anyVisible = false;
+        links.forEach(function(l) {
+            var match = !q || l.textContent.toLowerCase().indexOf(q) !== -1;
+            l.style.display = match ? '' : 'none';
+            if (match) anyVisible = true;
+        });
+        g.style.display = anyVisible ? '' : 'none';
+        // Auto-expand groups with matches when searching
+        if (q && anyVisible) g.classList.remove('collapsed');
+    });
+}

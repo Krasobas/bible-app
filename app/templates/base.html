@@ -10,14 +10,128 @@
 </head>
 <body>
 
+{# ── Category mapping for drawer grouping ── #}
+{% set course_categories = {
+    "luke": "Евангелие",
+    "paskha": "Обзорные лекции",
+    "angelology": "Обзорные лекции",
+    "nativity": "Мир I века",
+    "social-structure": "Мир I века",
+    "festivals": "Мир I века",
+    "temple": "Мир I века",
+    "roman-occupation": "Мир I века",
+    "synagogue": "Мир I века",
+    "women-first-century": "Мир I века",
+    "messianic-expectations": "Вера и мировоззрение",
+    "apocalyptic": "Вера и мировоззрение",
+    "qumran": "Вера и мировоззрение",
+    "jewish-beliefs": "Вера и мировоззрение",
+    "healing-possession": "Повседневность",
+    "death-burial": "Повседневность",
+    "meals-purity": "Повседневность",
+    "ot-history": "Ветхий Завет",
+    "bible-overview": "Ветхий Завет",
+} %}
+{% set category_order = ["Евангелие", "Обзорные лекции", "Мир I века", "Вера и мировоззрение", "Повседневность", "Ветхий Завет"] %}
+
+{# ── Group courses by category ── #}
+{% set ns = namespace(grouped={}) %}
+{% for cat in category_order %}
+    {% set _ = ns.grouped.update({cat: []}) %}
+{% endfor %}
+{% for c in courses %}
+    {% set cat = course_categories.get(c.slug, "Обзорные лекции") %}
+    {% if cat in ns.grouped %}
+        {% set _ = ns.grouped[cat].append(c) %}
+    {% else %}
+        {% set _ = ns.grouped.update({cat: [c]}) %}
+    {% endif %}
+{% endfor %}
+
+{# ── Compact topbar ── #}
 <nav class="topbar">
     <a href="/" class="brand">{{ site_title }}</a>
-    {% for c in courses %}
-    <a href="/{{ c.slug }}/"
-       class="{% if course is defined and course.slug == c.slug %}current{% endif %}"
-    >{% if c.slug == 'paskha' %}Пасха{% elif c.slug == 'luke' %}Лука{% else %}{{ c.title }}{% endif %}</a>
-    {% endfor %}
+    {% if course is defined %}
+    <span class="current-course"><span>{{ course.title }}</span></span>
+    {% endif %}
+    <button class="menu-btn" onclick="toggleCourseDrawer()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="2" y1="4" x2="14" y2="4"/>
+            <line x1="2" y1="8" x2="14" y2="8"/>
+            <line x1="2" y1="12" x2="14" y2="12"/>
+        </svg>
+        Все курсы
+    </button>
 </nav>
+
+{# ── Drawer overlay ── #}
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleCourseDrawer()"></div>
+
+{# ── Course drawer ── #}
+<div class="drawer" id="courseDrawer">
+    <div class="drawer-header">
+        <a href="/" class="drawer-brand">{{ site_title }}</a>
+        <button class="drawer-close" onclick="toggleCourseDrawer()">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+                <line x1="4" y1="4" x2="14" y2="14"/>
+                <line x1="14" y1="4" x2="4" y2="14"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="drawer-search">
+        <div class="drawer-search-wrap">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="7" cy="7" r="4.5"/><line x1="10.2" y1="10.2" x2="14" y2="14"/>
+            </svg>
+            <input type="text" id="drawerSearchInput" placeholder="Найти курс..." oninput="filterDrawerCourses()" />
+        </div>
+    </div>
+
+    <div class="drawer-body">
+        {% for cat_name in category_order %}
+        {% set cat_courses = ns.grouped.get(cat_name, []) %}
+        {% if cat_courses %}
+        <div class="drawer-group">
+            <div class="drawer-group-header" onclick="toggleDrawerGroup(this)">
+                <span class="drawer-group-title">{{ cat_name }}</span>
+                <svg class="drawer-group-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,5 7,9 11,5"/></svg>
+            </div>
+            <div class="drawer-group-links">
+                {% for c in cat_courses %}
+                <a href="/{{ c.slug }}/"
+                   class="drawer-link {% if course is defined and course.slug == c.slug %}active{% endif %}"
+                >{{ c.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {# Courses not in category_order mapping — show as "Другие" #}
+        {% set uncategorized = [] %}
+        {% for c in courses %}
+            {% if c.slug not in course_categories %}
+                {% set _ = uncategorized.append(c) %}
+            {% endif %}
+        {% endfor %}
+        {% if uncategorized %}
+        <div class="drawer-group">
+            <div class="drawer-group-header" onclick="toggleDrawerGroup(this)">
+                <span class="drawer-group-title">Другие</span>
+                <svg class="drawer-group-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,5 7,9 11,5"/></svg>
+            </div>
+            <div class="drawer-group-links">
+                {% for c in uncategorized %}
+                <a href="/{{ c.slug }}/"
+                   class="drawer-link {% if course is defined and course.slug == c.slug %}active{% endif %}"
+                >{{ c.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
 
 {% block content %}{% endblock %}
 
