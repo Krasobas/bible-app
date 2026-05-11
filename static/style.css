@@ -1362,3 +1362,9 @@ h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--ac
     from { opacity: 0; max-height: 0; }
     to { opacity: 1; max-height: 2000px; }
 }
+
+/* Jesus' direct speech highlighting */
+.jesus-words {
+  color: #7a5c10;
+  font-weight: 500;
+}
