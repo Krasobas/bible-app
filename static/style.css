@@ -218,7 +218,7 @@ a:hover { text-decoration: underline; }
 .subnav {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    padding: 0.4rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     font-size: 0.82rem;
     overflow-x: auto;
     flex-shrink: 0;
@@ -227,8 +227,18 @@ a:hover { text-decoration: underline; }
 .subnav { -ms-overflow-style: none; scrollbar-width: none; }
 
 .subnav-inner {
-    display: flex; align-items: center; gap: 0.5rem;
+    display: flex; align-items: center; gap: 0.6rem;
     max-width: 960px; margin: 0 auto;
+}
+.subnav-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400;
+    color: var(--accent); margin: 0; white-space: nowrap; flex-shrink: 0;
+}
+.subnav-divider {
+    width: 1px; height: 20px; background: var(--border); flex-shrink: 0;
+}
+.subnav-links {
+    display: flex; align-items: center; gap: 0.35rem;
 }
 .subnav-link {
     color: var(--accent-light); text-decoration: none;
@@ -669,7 +679,7 @@ h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; color: var(--fg
 h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--accent); }
 
 .subtitle {
-    font-size: 1.1rem; color: var(--accent-light); margin-bottom: 2rem;
+    font-size: 1.1rem; color: var(--accent-light); margin-bottom: 2rem; margin-top: 0.5rem;
 }
 
 .term { font-weight: 700; color: var(--accent); }
@@ -1334,6 +1344,9 @@ h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--ac
     .synoptic { grid-template-columns: 1fr; }
 
     .subnav-inner { flex-wrap: wrap; }
+    .subnav-title { font-size: 1.1rem; }
+    .subnav-divider { display: none; }
+    .subnav-links { flex-wrap: wrap; }
 
     .lecture-layout { height: auto; }
     .lecture-nav {

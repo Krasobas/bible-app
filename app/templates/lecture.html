@@ -8,20 +8,32 @@
 {% block title %}{{ lecture.title }} — {{ course.title }} — {{ site_title }}{% endblock %}
 
 {% block content %}
+{% set ns = namespace(short_title=lecture.title, desc_title='') %}
+{% if ' — ' in lecture.title %}
+    {% set parts = lecture.title.split(' — ') %}
+    {% set ns.short_title = parts[0] %}
+    {% set ns.desc_title = parts[1] %}
+{% endif %}
+
 <div class="lecture-layout">
 
-<!-- Sub-navigation for this course -->
+<!-- Sub-navigation + lecture title combined -->
 <div class="subnav">
     <div class="subnav-inner">
-        {% for lec in course.lectures %}
-        <a href="/{{ course.slug }}/{{ lec.slug }}/"
-           class="subnav-link {% if lec.slug == lecture.slug %}active{% endif %}"
-        >{{ lec.title }}</a>
-        {% endfor %}
-        <span class="subnav-sep">|</span>
-        {% for ref in ref_pages %}
-        <a href="/{{ course.slug }}/ref/{{ ref.slug }}/" class="subnav-ref">{{ ref.title }}</a>
-        {% endfor %}
+        <h1 class="subnav-title">{{ ns.short_title }}</h1>
+        <span class="subnav-divider"></span>
+        <nav class="subnav-links">
+            {% for lec in course.lectures %}
+            {% set lec_short = lec.title.split(' — ')[0] %}
+            <a href="/{{ course.slug }}/{{ lec.slug }}/"
+               class="subnav-link {% if lec.slug == lecture.slug %}active{% endif %}"
+            >{{ lec_short }}</a>
+            {% endfor %}
+            <span class="subnav-sep">|</span>
+            {% for ref in ref_pages %}
+            <a href="/{{ course.slug }}/ref/{{ ref.slug }}/" class="subnav-ref">{{ ref.title }}</a>
+            {% endfor %}
+        </nav>
     </div>
 </div>
 
@@ -30,7 +42,7 @@
     <!-- Scripture column -->
     <div class="scripture-column scroll-hidden" id="scriptureCol">
 
-        <h1>{{ lecture.title }}</h1>
+        {% if ns.desc_title %}<p class="subtitle">{{ ns.desc_title }}</p>{% endif %}
         {% if lecture.subtitle %}<p class="subtitle">{{ lecture.subtitle }}</p>{% endif %}
 
         {{ lecture.content | safe }}
